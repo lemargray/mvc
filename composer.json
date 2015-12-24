@@ -1,0 +1,8 @@
+{
+    "require": {
+        "twig/twig": "~1.23",
+        "illuminate/routing": "^5.0",
+        "illuminate/events": "^5.0",
+        "nikic/fast-route": "^0.7.0"
+    }
+}
