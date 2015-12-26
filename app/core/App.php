@@ -1,5 +1,9 @@
 <?php
 
+/*********************************
+* This Class is not is use
+*********************************/
+
 class App
 {
 
@@ -15,13 +19,5 @@ class App
         //Route::match();
         Route::respond();
 
-    }
-
-    public function parseUrl()
-    {
-        if(isset($_GET['url']))
-        {
-           return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
-        }
     }
 }
