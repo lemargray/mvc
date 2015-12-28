@@ -5,6 +5,7 @@ $route->addRoute('GET', 'users', function(){
 });
 
 $route->addRoute('GET', 'users/{name}', 'UserController@index');
+$route->addRoute('GET', 'users/{id}/{name}', 'UserController@index');
     // {id} must be a number (\d+)
 $route->addRoute('GET', '/user/{id:\d+}', 'get_user_handler');
     // The /{title} suffix is optional

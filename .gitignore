@@ -1,3 +1,7 @@
 /vendor
 /.idea
 composer.lock
+.gitignore
+/app/core/LaravelRouteing.php
+/app/core/Route.php
+/app/Route.php

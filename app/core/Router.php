@@ -57,23 +57,23 @@ class Router
 	{
 		if ( is_null($returned) || empty($returned) )
 		{
-			return;
+			$response = new Response\EmptyResponse();
 		}
-		if ($returned instanceOf Zend\Diactoros\Response)
-		{
+		if ($returned instanceof zend\Diactoros\Response)
+		{	
 			 $response = $returned;
 		}
-	    if (is_object($returned) || is_array($returned))
+	    else if (is_object($returned) || is_array($returned))
 	    {
 	        $response = new Response\JsonResponse($returned);
 	    }
 	    else if (preg_match('/<html>/', $returned))
 	    {
-	    	$response = Response\HtmlReponse($returned);
+	    	$response = new Response\HtmlResponse($returned);
 	    }
 	    else if ( is_string($returned) )
 	    {
-	    	$response = new  Response\TextResponse($returned);
+	    	$response = new Response\TextResponse($returned);
 	    }
 		$emitter = new Zend\Diactoros\Response\SapiEmitter();
 		$emitter->emit($response);

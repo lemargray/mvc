@@ -4,7 +4,11 @@
 	<title>Testing</title>
 </head>
 <body>
-	<h1>Hello my name is {{ id }}!</h1>
+	<h1>Hello my name is {{ name }} 
+		{% if id is not null %}
+			{{ " and my ID# is: "}} {{id}}
+		{% endif %}
+	</h1>
 </body>
 </html>
 

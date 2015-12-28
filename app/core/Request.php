@@ -14,8 +14,6 @@ class Request
 		    $_COOKIE,
 		    $_FILES
 		);
-		//$this->uriObject = new Zend\Diactoros\Uri($this->getRequestObject()->getUri());
-		//echo "__construct";
 	}
 
 	public function getRequestObject()
@@ -25,11 +23,26 @@ class Request
 
 	public function get($key)
 	{
-		return rtrim($this->getRequestObject()->getQueryParams()['url'], '/');//rawurldecode(parse_url($this->getRequestObject()->getQueryParams()[$key], PHP_URL_PATH));
+		return rtrim($this->getRequestObject()->getQueryParams()[$key], '/');
 	}
 
 	public function method()
 	{
 		return $this->getRequestObject()->getMethod();
+	}
+
+	public function getPath()
+	{
+		return $this->getRequestObject()->getUri()->getPath();
+	}
+
+	public function getBasePath()
+	{
+		$queryString = $this->getRequestObject()->getQueryParams()['url'];
+		$path = $this->getPath();
+		$pattern = preg_replace('/\//', '\/', $queryString);
+		$pattern = '/'.$pattern.'/';
+		$basePath = preg_replace($pattern, '', $path);
+		return preg_replace($pattern, '',$path);
 	}
 }
