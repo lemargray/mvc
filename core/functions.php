@@ -10,7 +10,8 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 function view($file, $data = [])
 {
-	$loader = new \Twig_loader_filesystem(__DIR__ . "/../views");
+	$view_folder = __DIR__ . '/../app/views';
+	$loader = new \Twig_loader_filesystem($view_folder);
 	$twig = new \Twig_Environment($loader);
 	return $twig->render($file, $data);
 }

@@ -8,7 +8,7 @@ class UserController extends Controller
 {
 	public function index($data)
 	{
-		return \Lemmy\redirect('/users');
-		return \Lemmy\view('index.html', $data);
+		//return $this->redirect('/users');
+		return $this->view('index.html', $data);
 	}
 }

@@ -10,11 +10,11 @@
         	"app/models"
         ],
         "psr-4": {
-            "Lemmy\\": "app/core",
+            "Lemmy\\": "core",
             "App\\": "app/",
             "App\\Controllers\\": "app/controllers",
             "App\\Models\\": "app/models"
         },
-        "files": ["app/core/functions.php"]
+        "files": ["core/functions.php"]
     }
 }
