@@ -8,6 +8,13 @@
         "classmap": [
         	"app/controllers",
         	"app/models"
-        ]
+        ],
+        "psr-4": {
+            "Lemmy\\": "app/core",
+            "App\\": "app/",
+            "App\\Controllers\\": "app/controllers",
+            "App\\Models\\": "app/models"
+        },
+        "files": ["app/core/functions.php"]
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Lemmy;
+
 use Zend\Diactoros\Response;
 
 class Router
@@ -12,8 +14,8 @@ class Router
 
 	public function __construct()
 	{
-		$this->dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $route) {
-		    require APP_FOLDER . 'routes.php';
+		$this->dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $route) {
+		    require __DIR__ . '/../routes.php';
 		});
 	}
 
@@ -26,16 +28,16 @@ class Router
 	private function processDistach()
 	{
 		switch ($this->routeInfo[0]) {
-		    case FastRoute\Dispatcher::NOT_FOUND:
+		    case \FastRoute\Dispatcher::NOT_FOUND:
 		        // ... 404 Not Found
 		        echo "404 NOT_FOUND";
 		        break;
-		    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+		    case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
 		        $allowedMethods = $this->routeInfo[1];
 		        // ... 405 Method Not Allowed
 		        echo "METHOD_NOT_ALLOWED {$allowedMethods}";
 		        break;
-		    case FastRoute\Dispatcher::FOUND:
+		    case \FastRoute\Dispatcher::FOUND:
 		    	list($this->status, $this->handler, $this->data) = $this->routeInfo;
 		        if (is_callable($this->handler))
 		        {
@@ -46,7 +48,8 @@ class Router
 				else if (preg_match('/@/', $this->handler))
 		        {
 		            list($class, $method) = explode('@', $this->handler);
-		            $controller = new $class();
+		            $controller = "\App\Controllers\\" . $class;
+		            $controller = new $controller();
 		            $returned = $controller->$method($this->data);
 		            $this->output($returned);
 		            break;
@@ -60,7 +63,7 @@ class Router
 		{
 			$response = new Response\EmptyResponse();
 		}
-		else if ($returned instanceof zend\Diactoros\Response)
+		else if ($returned instanceof \zend\Diactoros\Response)
 		{	
 			 $response = $returned;
 		}
@@ -76,7 +79,7 @@ class Router
 	    {
 	    	$response = new Response\TextResponse($returned);
 	    }
-		$emitter = new Zend\Diactoros\Response\SapiEmitter();
+		$emitter = new \Zend\Diactoros\Response\SapiEmitter();
 		$emitter->emit($response);
 	}
 }

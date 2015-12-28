@@ -1,5 +1,7 @@
 <?php
 
+namespace Lemmy;
+
 class Request
 {
 	private $requestObject;

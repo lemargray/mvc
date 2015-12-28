@@ -1,15 +1,9 @@
 <?php
 
-require_once '../app/core/init.php';
+require __DIR__.'/../vendor/autoload.php';
 
-require APP_FOLDER . 'core/Request.php';
+$request = new Lemmy\Request();
 
-require APP_FOLDER . 'core/Router.php';
-
-$request = new Request();
-
-define('BASE_PATH', $request->getBasePath());
-
-$router = new Router();
+$router = new Lemmy\Router();
 
 $router->dispatch($request->method(), $request->get('url'));
