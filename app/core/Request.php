@@ -16,7 +16,7 @@ class Request
 		);
 	}
 
-	public function getRequestObject()
+	private function getRequestObject()
 	{
 		return $this->requestObject;
 	}

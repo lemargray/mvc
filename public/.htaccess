@@ -1,6 +1,7 @@
 Options -multiviews
 RewriteEngine On
 
+#path to your document root
 RewriteBase /sandbox/mvc/public
 
 RewriteCond %{REQUEST_FILENAME} !-d
