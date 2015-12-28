@@ -7,6 +7,7 @@ class Router
 	private $status;
 	private $handler;
 	private $data;
+	private $routeInfo;
 	private $dispatcher;
 
 	public function __construct()
@@ -18,23 +19,24 @@ class Router
 
 	public function dispatch($httpMethod, $url)
 	{
-		@list($this->status, $this->handler, $this->data) = $this->dispatcher->dispatch($httpMethod, $url);
+		$this->routeInfo = $this->dispatcher->dispatch($httpMethod, $url);
 		$this->processDistach();
 	}
 
 	private function processDistach()
 	{
-		switch ($this->status) {
+		switch ($this->routeInfo[0]) {
 		    case FastRoute\Dispatcher::NOT_FOUND:
 		        // ... 404 Not Found
 		        echo "404 NOT_FOUND";
 		        break;
 		    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-		        $allowedMethods = $this->handler;
+		        $allowedMethods = $this->routeInfo[1];
 		        // ... 405 Method Not Allowed
 		        echo "METHOD_NOT_ALLOWED {$allowedMethods}";
 		        break;
 		    case FastRoute\Dispatcher::FOUND:
+		    	list($this->status, $this->handler, $this->data) = $this->routeInfo;
 		        if (is_callable($this->handler))
 		        {
 		            $returned = call_user_func($this->handler, $this->data);
@@ -43,8 +45,7 @@ class Router
 		        }
 				else if (preg_match('/@/', $this->handler))
 		        {
-		            @list($class, $method) = explode('@', $this->handler);
-		            require CONTROLLER_FOLDER . $class . '.php';
+		            list($class, $method) = explode('@', $this->handler);
 		            $controller = new $class();
 		            $returned = $controller->$method($this->data);
 		            $this->output($returned);
@@ -55,11 +56,11 @@ class Router
 
 	private function output($returned)
 	{
-		if ( is_null($returned) || empty($returned) )
+		if ( empty($returned) )
 		{
 			$response = new Response\EmptyResponse();
 		}
-		if ($returned instanceof zend\Diactoros\Response)
+		else if ($returned instanceof zend\Diactoros\Response)
 		{	
 			 $response = $returned;
 		}
