@@ -15,12 +15,10 @@ class Router
 	private $dispatcher;
 	private $emitter;
 
-	public function __construct(EmitterInterface $emitter)
+	public function __construct(EmitterInterface $emitter, $dispatcher)
 	{
 		$this->emitter = $emitter;
-		$this->dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $route) {
-		    require __DIR__ . '/../app/routes.php';
-		});
+		$this->dispatcher = $dispatcher;
 	}
 
 	public function dispatch($httpMethod, $url)
