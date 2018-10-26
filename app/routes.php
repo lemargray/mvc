@@ -4,6 +4,10 @@ $route->addRoute('GET', 'users', function(){
 	return "users";
 });
 
+$route->addRoute('GET', '/', function(){
+	return \Lemmy\text("Index page");
+});
+
 $route->addRoute('GET', 'users/{name}', 'UserController@index');
 $route->addRoute('GET', 'users/{id}/{name}', 'UserController@index');
     // {id} must be a number (\d+)

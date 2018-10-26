@@ -2,20 +2,16 @@
 
 namespace Lemmy;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 class Request
 {
 	private $requestObject;
 	private $uriObject;
 
-	public function __construct()
+	public function __construct(ServerRequestInterface $requestObject)
 	{
-		$this->requestObject = \Zend\Diactoros\ServerRequestFactory::fromGlobals(
-		    $_SERVER,
-		    $_GET,
-		    $_POST,
-		    $_COOKIE,
-		    $_FILES
-		);
+		$this->requestObject = $requestObject;
 	}
 
 	private function getRequestObject()
@@ -25,7 +21,13 @@ class Request
 
 	public function get($key)
 	{
-		return rtrim($this->getRequestObject()->getQueryParams()[$key], '/');
+		$queryObject = $this->getRequestObject()->getQueryParams();
+
+		if (empty($queryObject)) {
+			return "/";
+		}
+
+		return rtrim($queryObject[$key], '/');
 	}
 
 	public function method()
